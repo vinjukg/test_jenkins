@@ -44,7 +44,7 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
+        stage('Validate and dry-run') {
             steps {      
                 withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
                     sh """
@@ -63,6 +63,15 @@ pipeline {
                     input "Continue?"
                     echo 'Yes..'
                 }
+            }
+        }
+        stage('Execute') {
+            steps {      
+                withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
+                    sh """
+                    python3 test.py ${params.PATH} ${GCP_PROJECT_ID}
+                    """
+                }        
             }
         }
     }
