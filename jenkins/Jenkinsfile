@@ -36,6 +36,11 @@ pipeline {
                         default:
                             GCP_PROJECT_ID = params.PROJECT_ID       
                     }
+                    withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
+                    sh """
+                    pip3 install --upgrade google-cloud-storage
+                    """
+                }  
                 }
             }
         }
@@ -43,7 +48,6 @@ pipeline {
             steps {      
                 withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
                     sh """
-                    pip3 install --upgrade google-cloud-storage
                     echo "${GCP_PROJECT_ID}"
                     echo "${params.PATH}"
                     python3 test.py ${params.PATH} ${GCP_PROJECT_ID}
