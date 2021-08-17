@@ -44,6 +44,8 @@ pipeline {
                     withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
                     sh """
                     pip3 install --upgrade google-cloud-storage
+                    pip3 install click
+                    pip3 install six
                     """
                 }  
                 }
