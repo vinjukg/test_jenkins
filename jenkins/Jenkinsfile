@@ -28,6 +28,8 @@ pipeline {
                         case 'stg':
                             GCP_PROJECT_ID = "stg-datalake"                            
                             break
+                        default:
+                            GCP_PROJECT_ID = "default-datalake"       
                     }
                 }
             }
