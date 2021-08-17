@@ -58,7 +58,6 @@ pipeline {
                     sh """
                     echo "${GCP_PROJECT_ID}"
                     echo "${params.PATH}"
-                    python3 test.py ${params.PATH} ${GCP_PROJECT_ID}
                     python3 test.py --env ${params.ENV} --gcp-project-id ${GCP_PROJECT_ID} --gcs-bucket ${params.BUCKET}  --execution-order-file ${params.PATH} --dry-run True
                     """
                 }        
