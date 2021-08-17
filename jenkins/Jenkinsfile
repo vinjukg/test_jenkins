@@ -11,6 +11,11 @@ pipeline {
             description: 'ennvironment',
             defaultValue: params.PATH ?: "dev"
         )
+        string(
+            name: 'PROJECT_ID',
+            description: 'project',
+            defaultValue: params.PATH ?: "dev-datalake"
+        )
     }
     environment {
 
@@ -23,13 +28,13 @@ pipeline {
                 script {
                     switch(params.ENV) {
                         case 'dev':                           
-                            GCP_PROJECT_ID = "dev-datalake"                            
+                            GCP_PROJECT_ID = params.PROJECT_ID                            
                             break
                         case 'stg':
-                            GCP_PROJECT_ID = "stg-datalake"                            
+                            GCP_PROJECT_ID = params.PROJECT_ID                            
                             break
                         default:
-                            GCP_PROJECT_ID = "default-datalake"       
+                            GCP_PROJECT_ID = params.PROJECT_ID       
                     }
                 }
             }
