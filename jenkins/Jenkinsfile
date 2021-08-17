@@ -2,8 +2,13 @@ pipeline {
     agent any
     parameters {        
         string(
+            name: 'BUCKET',
+            description: 'gcs bucket',
+            defaultValue: params.PATH ?: "gcs"
+        )
+        string(
             name: 'PATH',
-            description: 'gcs path',
+            description: 'execution file path',
             defaultValue: params.PATH ?: "gcs"
         )
         string(
@@ -51,6 +56,7 @@ pipeline {
                     echo "${GCP_PROJECT_ID}"
                     echo "${params.PATH}"
                     python3 test.py ${params.PATH} ${GCP_PROJECT_ID}
+                    python3 test.py --env ${params.ENV} --gcp-project-id ${GCP_PROJECT_ID} --gcs-bucket ${params.BUCKET}  --execution-order-file ${params.PATH} --dry-run True
                     """
                 }        
             }
@@ -69,7 +75,7 @@ pipeline {
             steps {      
                 withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
                     sh """
-                    python3 test.py ${params.PATH} ${GCP_PROJECT_ID}
+                    echo "execute"
                     """
                 }        
             }
