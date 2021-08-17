@@ -4,7 +4,7 @@ pipeline {
         string(
             name: 'BUCKET',
             description: 'gcs bucket',
-            defaultValue: params.PATH ?: "gcs"
+            defaultValue: params.BUCKET ?: "gcs"
         )
         string(
             name: 'PATH',
@@ -14,12 +14,12 @@ pipeline {
         string(
             name: 'ENV',
             description: 'ennvironment',
-            defaultValue: params.PATH ?: "dev"
+            defaultValue: params.ENNV ?: "dev"
         )
         string(
             name: 'PROJECT_ID',
             description: 'project',
-            defaultValue: params.PATH ?: "dev-datalake"
+            defaultValue: params.PROJECT_ID ?: "dev-datalake"
         )
     }
     environment {
