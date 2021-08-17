@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+    parameters {        
+        string(
+            name: 'PATH',
+            description: 'gcs path',
+            defaultValue: params.PATH ?: "gcs"
+        )
+        string(
+            name: 'ENV',
+            description: 'ennvironment',
+            defaultValue: params.PATH ?: "dev"
+        )
+    }
+    environment {
+
+        GOOGLE_APPLICATION_CREDENTIALS = credentials("g_key")
+        
+    }
+    stages {
+        stage('Build env') {
+            steps {
+                script {
+                    switch(params.ENV) {
+                        case 'dev':                           
+                            GCP_PROJECT_ID = "dev-datalake"                            
+                            break
+                        case 'stg':
+                            GCP_PROJECT_ID = "stg-datalake"                            
+                            break
+                    }
+                }
+            }
+        }
+        stage('Build') {
+            steps {      
+                withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
+                    sh """
+                    pip3 install --upgrade google-cloud-storage
+                    echo "${GCP_PROJECT_ID}"
+                    echo "${params.PATH}"
+                    python3 test.py ${params.PATH} ${GCP_PROJECT_ID}
+                    """
+                }        
+            }
+        }
+    }
+}
