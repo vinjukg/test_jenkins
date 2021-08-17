@@ -44,7 +44,7 @@ pipeline {
                 }
             }
         }
-        stage('Validate and dry-run') {
+        stage('Validate') {
             steps {      
                 withEnv(['PATH+EXTRA=/usr/sbin:/usr/bin:/sbin:/bin']) {
                     sh """
